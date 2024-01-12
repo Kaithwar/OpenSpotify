@@ -147,6 +147,8 @@ async function main(){
         let percent = (e.offsetX / e.target.getBoundingClientRect().width) * 100;
         document.querySelector(".circle").style.left = percent + "%";
         currentSong.currentTime = ((currentSong.duration) * percent) / 100
+        currentSong.play()
+        play.src = "img/pause.svg"
     })
 
     // Add an event listener for hamburger
@@ -178,6 +180,14 @@ async function main(){
             playMusic(songs[index + 1])
         }
     })
+
+    currentSong.addEventListener("ended", () => {
+        currentSong.pause();
+        let index = songs.indexOf(currentSong.src.split("/").slice(-1)[0]);
+        if (index + 1 < songs.length) {
+            playMusic(songs[index + 1]);
+        }
+    });
     // Add an event to volume
     document.querySelector(".range").getElementsByTagName("input")[0].addEventListener("change", (e) => {
         console.log("Setting volume to", e.target.value, "/ 100")
